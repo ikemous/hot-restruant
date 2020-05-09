@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>View Page</title>
+
+	
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+	<div class="container">
+
+		<div class="jumbotron">
+			 <h1 class="text-center"><span class="glyphicon glyphicon-cutlery"></span> Hot Restaurant</h1>
+			<hr> 
+			<h1 class="text-center">Current Reservations and Waiting List</h1>
+			<br>
+
+			<div class="text-center">
+				<a href="./form"><span class="glyphicon glyphicon-calendar"></span> Make Reservation</button></a>
+				<a href="./"><button type="button" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-home"></span></button></a>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
+
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">Current Reservations</h4>
+					</div>
+					<div class="panel-body" id="tableSection">
+                        <!-- card group -->
+                        <div id="currentRow">
+
+                        </div>
+					</div>
+				</div>
+
+				<!-- Waiting List Panel -->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">Waiting List</h4>
+					</div>
+					<div class="panel-body" id="waitlistSection">
+                        <!-- cardGrou[] -->
+                        <div id="reservationRow">
+                            
+                        </div>
+					</div>
+                </div>
+			</div>
+        </div>
+        
+        <footer class="footer">
+            <div class="container">
+            </div>
+        </footer>   
+
+	</div>
+<!--Script code below-->
+    <script>
+        
+
+        //init function
+        function init()
+        {
+            //generate current list cards
+            $.get("/api/current", data=>{
+                
+                let count = 0;
+
+                let row = $("#currentRow");
+                row.html("");
+
+                for(const reservation of data)
+                {
+                    const newRow = $("<div>");
+                    newRow.addClass("row");
+                    row.append(newRow);
+
+                    const newCard = $("<div>");
+                    newCard.addClass("card");
+                    newCard.attr("style", "width: 100%")
+                    newRow.append(newCard);
+
+                    const cardBody = $("<div>");
+                    cardBody.addClass("card-body");
+                    newCard.append(cardBody);
+
+                    const cardTitle = $("<h4>");
+                    cardTitle.text(`Table #${count}`);
+                    cardTitle.addClass("card-title");
+                    cardBody.append(cardTitle);
+
+                    const customerName = $("<p>");
+                    customerName.addClass("card-text");
+                    customerName.text(`Name: ${reservation.name}`);
+                    cardBody.append(customerName);
+
+                    const customerNumber = $("<p>");
+                    customerNumber.addClass("card-text");
+                    customerNumber.text(`Number: ${reservation.number}`);
+                    cardBody.append(customerNumber);
+
+                    const customerEmail = $("<p>");
+                    customerEmail.addClass("card-text");
+                    customerEmail.text(`Email: ${reservation.email}`);
+                    cardBody.append(customerEmail);
+
+                    const customerID = $("<p>");
+                    customerID.addClass("card-text");
+                    customerID.text(`ID: ${reservation.id}`);
+                    cardBody.append(customerID);
+
+                    const customerComments = $("<p>");
+                    customerComments.addClass("card-text");
+                    customerComments.text(`Additional Comments: ${reservation.additionalComments}`);
+                    cardBody.append(customerComments);
+
+                    count++;
+                }
+            });
+
+                //generate current list cards
+            $.get("/api/waiting", data=>{
+                
+                let count = 0;
+
+                let row = $("#reservationRow");
+                row.html("");
+
+                for(const reservation of data)
+                {
+                    const newRow = $("<div>");
+                    newRow.addClass("row");
+                    row.append(newRow);
+
+                    const newCard = $("<div>");
+                    newCard.addClass("card");
+                    newCard.attr("style", "width: 100%")
+                    newRow.append(newCard);
+
+                    const cardBody = $("<div>");
+                    cardBody.addClass("card-body");
+                    newCard.append(cardBody);
+
+                    const cardTitle = $("<h4>");
+                    cardTitle.text(`Reservation #${count}`);
+                    cardTitle.addClass("card-title");
+                    cardBody.append(cardTitle);
+
+                    const customerName = $("<p>");
+                    customerName.addClass("card-text");
+                    customerName.text(`Name: ${reservation.name}`);
+                    cardBody.append(customerName);
+
+                    const customerNumber = $("<p>");
+                    customerNumber.addClass("card-text");
+                    customerNumber.text(`Number: ${reservation.number}`);
+                    cardBody.append(customerNumber);
+
+                    const customerEmail = $("<p>");
+                    customerEmail.addClass("card-text");
+                    customerEmail.text(`Email: ${reservation.email}`);
+                    cardBody.append(customerEmail);
+
+                    const customerID = $("<p>");
+                    customerID.addClass("card-text");
+                    customerID.text(`ID: ${reservation.id}`);
+                    cardBody.append(customerID);
+
+                    const customerComments = $("<p>");
+                    customerComments.addClass("card-text");
+                    customerComments.text(`Additional Comments: ${reservation.additionalComments}`);
+                    cardBody.append(customerComments);
+
+                    count++;
+                }
+            });        
+
+
+        }
+        
+
+        init()
+
+    </script>
+
+</body>
+
+</html>

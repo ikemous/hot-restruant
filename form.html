@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" /> 
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./public/style.css">
+  <title>Reserve Table</title>
+</head>
+
+<body>
+    
+  <header>
+  
+    
+  </header>
+  
+      <form role="form" method="POST">
+            <div class="container" id=orderContainer>
+     
+                <h1 class="center-align">Reserve Your Table</h1>
+                <div class="row">
+                    <div class="col s6">
+                    <input placeholder="Enter First Name" id="first_name" type="text">
+                    <label for="first_name">First Name</label>
+                    </div>
+                    <div class="col s6">
+                    <input placeholder="Enter Last Name" id="last_name" type="text">
+                    <label for="last_name">Last Name</label>
+                    </div>
+                    <div class="col s6">
+                        <input placeholder="Enter Email" id="customer_email" type="text">
+                        <label for="customer_email">Email</label>
+                        </div>
+                        <div class="col s6">
+                            <input placeholder="Enter ID" id="customer_id" type="text">
+                            <label for="id">ID</label>
+                            </div>
+                        <div class="col s6">
+                            <input placeholder="XXX-XXX-XXXX" id="customer_phone" type="text">
+                            <label for="customer_phone">Phone Number:</label>
+                            </div>
+                </div>
+            
+                <div class="row">
+                    <div class="input-field col s12">
+                    <!-- <input placeholder = "reserve table" id="reserve_table" type="text"> -->
+                    <textarea id="comments" placeholder = "Additional comments" class="materialize-textarea" type="text"></textarea>
+                    <label for="reserve_table">Reserve Table</label>
+                    </div>
+                    <div class="center-align" >
+                    <button class="btn waves-effect waves-light" type="submit" id="submitBtn">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+<script src="https://code.jquery.com/jquery.js"></script>    
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+
+    $("#submitBtn").on("click", event =>{
+        event.preventDefault();
+        const newReservation = {
+            name: `${$("#first_name").val().trim()}, ${$("#last_name").val().trim()}`,
+            number: $("#customer_phone").val().trim(),
+            email: $("#customer_email").val().trim(),
+            id: $("#customer_id").val().trim(),
+            additionalComments: $("#comments").val().trim()
+        };
+
+        // let totalReservations;
+        $.get("/api/current", data=>{
+            if(data.length < 6)
+                $.post("/api/current", newReservation);
+            else
+                $.post("/api/waiting", newReservation);
+        });        
+        alert("Reservation added")
+    });
+
+</script>
+<!-- <script src="./.js"></script> -->
+</body>        
+</body>
+</html>
